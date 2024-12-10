@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - LingoPals</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="dashboard-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-container">
+        <div class="logo">LingoPals</div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/dashboard" class="active">Dashboard</a></li>
+          <li>
+            <a href="/dashboard" class="user-profile">
+              <img
+                src="<%= user.avatar %>"
+                alt="Profile"
+                class="nav-profile-img"
+              />
+              <%= user.userName %>
+            </a>
+          </li>
+          <li><a href="/logout" class="btn-secondary">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li>
+          <a href="#" class="user-profile">
+            <img
+              src="https://api.dicebear.com/6.x/avataaars/svg?seed=<%= user.userName %>"
+              alt="Profile"
+              class="nav-profile-img"
+            />
+            <%= user.userName %>
+          </a>
+        </li>
+        <li><a href="/logout" class="btn-secondary">Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main class="dashboard">
+      <div class="container">
+        <!-- Profile Section -->
+        <section class="profile-section">
+          <div class="profile-card">
+            <div class="profile-header">
+              <div class="profile-image">
+                <img
+                  src="<%= user.avatar %>"
+                  alt="<%= user.userName %>"
+                />
+                <button class="edit-profile-btn">
+                  <i class="fas fa-camera"></i>
+                </button>
+              </div>
+              <div class="profile-info">
+                <h1><%= user.userName %></h1>
+                <p class="username"><%= user.email %></p>
+                <div class="profile-stats">
+                  <div class="stat">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Sessions</span>
+                  </div>
+
+                  <div class="stat">
+                    <span class="stat-value">28h</span>
+                    <span class="stat-label">Practice</span>
+
+                  </div>
+
+                  <div class="stat">
+                    <span class="stat-value"><%= user.selectedLanguage %></span>
+                    <span class="stat-label">Your target language</span>
+                    <form action="/updateLanguage?_method=PUT" method="POST">
+                      <select name="selectedLanguage" id="">
+                        <option value="English">English</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Mandarin">Mandarin</option>
+                        <option value="French">French</option>
+                      </select>
+                      <button class="language-submit" type="submit">Submit</button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Change profile piture modal -->
+        <div class="modal-overlay" id="avatarModal">
+          <div class="modal">
+            <button class="modal-close" id="closeModal">x</button>
+            <h2 class="modal-title">Update Profile Picture</h2>
+            <form action="/updateAvatar?_method=PUT" method="POST" enctype="multipart/form-data" id="avatarForm">
+              <img src="<%= user.avatar%>" 
+                   alt="Avatar Preview" 
+                   class="avatar-preview" 
+                   id="avatarPreview">
+              <div class="file-input-wrapper">
+                <label for="avatarUpload" class="file-input-label">Choose a new profile picture</label>
+                <input type="file" 
+                       id="avatarUpload" 
+                       name="file" 
+                       accept="image/*" 
+                       class="file-input" 
+                       required>
+              </div>
+              <button type="submit" value="Upload" class="modal-submit">Update Profile Picture</button>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- Language Rooms Section -->
+        <section class="rooms-section">
+          <h2>Language Rooms</h2>
+          <div class="rooms-grid" id="roomsGrid">
+            <% rooms.forEach(function(room) { %>
+            <div
+              class="room-card"
+              data-language="<%= room.language.toLowerCase() %>"
+              data-room-number="<%= room.roomNumber %>"
+            >
+              <span class="room-flag">
+                <img
+                  src="/img/<%= room.language.toLowerCase() %>.png"
+                  class="flag"
+                  alt="<%= room.language %> flag"
+                />
+              </span>
+
+              <h3>
+                <%= room.language %> Room<% if(room.roomNumber > 1) { %> <%=
+                room.roomNumber %><% } %>
+              </h3>
+
+              <div class="room-status">
+                <p class="participant-count">
+                  <span class="count-number"><%= room.participants %></span>
+                  learner<%= room.participants !== 1 ? 's' : '' %> online
+                </p>
+                <div class="room-details">
+                  <span class="level">All Levels</span>
+                  <span class="capacity">
+                    <i class="fas fa-users"></i>
+                    <span class="capacity-numbers"
+                      ><%= room.participants %>/6</span
+                    >
+                  </span>
+                </div>
+              </div>
+
+              <a
+              href="/room/<%= room.language.toLowerCase() %>/<%= room.roomNumber %>"
+              class="join-room-btn "
+              
+            >
+              Join Room
+            </a>
+            </div>
+            <% }); %> <% if(rooms.length === 0) { %>
+            <div class="no-rooms-message">
+              <p>Creating new rooms... Please wait.</p>
+            </div>
+            <% } %>
+          </div>
+        </section>
+
+         <!-- Flashcard Section -->
+         <section class="rooms-section">
+          <h2>Language Flashcards</h2>
+          <div class="rooms-grid">
+
+            <div class="room-card">
+              <span class=""
+                ><img src="/img/spanish.png" class="flag" alt=""
+              /></span>
+              <h3>Spanish Flashcards</h3>
+              <p></p>
+              <div class="room-details">
+                <span class="level"></span>
+                <span class="participants">
+
+                </span>
+              </div>
+              <a href="/decks/spanish" class="join-room-btn">Study Flashcards</a>
+            </div>
+
+            <div class="room-card">
+              <span class=""
+                ><img src="/img/french.png" class="flag" alt=""
+              /></span>
+              <h3>French Flashcards</h3>
+              <p></p>
+              <div class="room-details">
+                <span class="level"></span>
+                <span class="participants">
+
+                </span>
+              </div>
+              <a href="/decks/french" class="join-room-btn">Study Flashcards</a>
+            </div>
+
+            <div class="room-card">
+              <span class=""
+                ><img src="/img/mandarin.png" class="flag" alt=""
+              /></span>
+              <h3>Mandarin Flashcards</h3>
+              <p></p>
+              <div class="room-details">
+                <span class="level"></span>
+                <span class="participants">
+
+                </span>
+              </div>
+              <a href="/decks/mandarin" class="join-room-btn">Study Flashcards</a>
+            </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+      const socket = io();
+
+      function updateRoomData(roomData) {
+        const roomCard = document.querySelector(
+          `.room-card[data-language="${roomData.language.toLowerCase()}"][data-room-number="${
+            roomData.roomNumber
+          }"]`
+        );
+
+        if (!roomCard) {
+          // If room doesn't exist, add it
+          addNewRoom(roomData);
+          return;
+        }
+
+        // Update participant count
+        const countNumber = roomCard.querySelector(".count-number");
+        const capacityNumbers = roomCard.querySelector(".capacity-numbers");
+        countNumber.textContent = roomData.participants;
+        capacityNumbers.textContent = `${roomData.participants}/6`;
+
+        // Update learners text
+        const participantText = roomCard.querySelector(".participant-count");
+        participantText.innerHTML = `
+              <span class="count-number">${roomData.participants}</span> 
+              learner${roomData.participants !== 1 ? "s" : ""} online
+          `;
+
+        // Update join button
+        const joinButton = roomCard.querySelector(".join-room-btn");
+        if (roomData.participants >= 6) {
+          joinButton.classList.add("disabled");
+          joinButton.setAttribute("disabled", "");
+          joinButton.textContent = "Room Full";
+        } else {
+          joinButton.classList.remove("disabled");
+          joinButton.removeAttribute("disabled");
+          joinButton.textContent = "Join Room";
+        }
+      }
+
+      function addNewRoom(roomData) {
+        const roomsGrid = document.getElementById("roomsGrid");
+        const roomHTML = `
+              <div class="room-card room-card-appear" 
+                   data-language="${roomData.language.toLowerCase()}" 
+                   data-room-number="${roomData.roomNumber}">
+                  <span class="room-flag">
+                      <img src="/img/${roomData.language.toLowerCase()}.png" 
+                           class="flag" 
+                           alt="${roomData.language} flag">
+                  </span>
+
+                  <h3>${roomData.language} Room${
+          roomData.roomNumber > 1 ? " " + roomData.roomNumber : ""
+        }</h3>
+                  
+                  <div class="room-status">
+                      <p class="participant-count">
+                          <span class="count-number">${
+                            roomData.participants
+                          }</span> 
+                          learner${
+                            roomData.participants !== 1 ? "s" : ""
+                          } online
+                      </p>
+                      <div class="room-details">
+                          <span class="level">All Levels</span>
+                          <span class="capacity">
+                              <i class="fas fa-users"></i> 
+                              <span class="capacity-numbers">${
+                                roomData.participants
+                              }/6</span>
+                          </span>
+                      </div>
+                  </div>
+
+                  <a href="/room/${roomData.language.toLowerCase()}/${
+          roomData.roomNumber
+        }" 
+                     class="join-room-btn ${
+                       roomData.participants >= 6 ? "disabled" : ""
+                     }"
+                     ${roomData.participants >= 6 ? "disabled" : ""}>
+                      ${roomData.participants >= 6 ? "Room Full" : "Join Room"}
+                  </a>
+              </div>
+          `;
+        roomsGrid.insertAdjacentHTML("beforeend", roomHTML);
+      }
+
+      // Socket event listeners
+      socket.on("room-update", (rooms) => {
+        console.log("Room update received:", rooms);
+        rooms.forEach(updateRoomData);
+      });
+
+      socket.on("room-created", (room) => {
+        console.log("New room created:", room);
+        addNewRoom(room);
+      });
+
+
+      //modal
+      const modalOverlay = document.getElementById('avatarModal');
+      const closeModal = document.getElementById('closeModal');
+      const editProfileBtn = document.querySelector('.edit-profile-btn');
+      const avatarUpload = document.getElementById('avatarUpload');
+      const avatarPreview = document.getElementById('avatarPreview');
+
+      // Open modal
+      editProfileBtn.addEventListener('click', () => {
+        modalOverlay.classList.add('active');
+      });
+
+      // Close modal
+      closeModal.addEventListener('click', () => {
+        modalOverlay.classList.remove('active');
+      });
+
+      // Close modal when clicking outside
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+          modalOverlay.classList.remove('active');
+        }
+      });
+
+      // Preview image before upload
+      avatarUpload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            avatarPreview.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    </script>
+
+    <style>
+      .room-card {
+        transition: all 0.3s ease;
+      }
+
+      .room-card-appear {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .room-card .join-room-btn.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    </style>
+  </body>
+</html>

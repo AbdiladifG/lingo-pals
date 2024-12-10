@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= language.charAt(0).toUpperCase() + language.slice(1) %> Flashcard Decks</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        :root {
+            --primary-color: #6366F1;
+            --background-color: #F8F9FC;
+            --text-color: #1F2937;
+            --card-background: #FFFFFF;
+            --border-color: #E5E7EB;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            padding-top: 5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .deck-card {
+            background-color: var(--card-background);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .deck-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .deck-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .deck-count {
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+          <div class="logo">LingoPals</div>
+          <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+            <li><a href="/dashboard" class="active">Dashboard</a></li>
+            <li>
+              <a href="/dashboard" class="user-profile">
+                <img
+                  src="<%= user.avatar %>"
+                  alt="Profile"
+                  class="nav-profile-img"
+                />
+                <%= user.userName %>
+              </a>
+            </li>
+            <li><a href="/logout" class="btn-secondary">Logout</a></li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="container">
+        <h1><%= language.charAt(0).toUpperCase() + language.slice(1) %> Flashcard Decks</h1>
+        
+        <div class="deck-grid">
+            <% decks.forEach(deck => { %>
+                <% const deckName = Object.keys(deck).find(key => key !== '_id') %>
+                <% if (deckName) { %>
+                    <a href="/decks/<%= language %>/<%= deckName %>" class="deck-card">
+                        <h2 class="deck-title"><%= deckName.charAt(0).toUpperCase() + deckName.slice(1) %></h2>
+                        <p class="deck-count"><%= deck[deckName].length %> cards available</p>
+                    </a>
+                <% } %>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>

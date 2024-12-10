@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - LingoPals</title>
+    <link rel="stylesheet" href="signup-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="signup-container">
+      <div class="signup-card">
+        <div class="logo">
+          <a href="index.html">LingoPals</a>
+        </div>
+        <h1>Create your account</h1>
+        <p class="subtitle">Join our community of language learners today</p>
+        <% if (locals.messages.errors) { %> <% messages.errors.forEach( el => {
+          %>
+          <div class="alert alert-danger"><%= el.msg %></div>
+          <% }) %> <% } %> <% if (locals.messages.info) { %> <%
+          messages.info.forEach( el => { %>
+          <div class="alert alert-info"><%= el.msg %></div>
+          <% }) %> <% } %>
+        <form class="signup-form" action="/signup" method="post">
+          <div class="form-group">
+            <label for="fullname">Username</label>
+            <input
+              type="text"
+              id="fullname"
+              placeholder="Enter your username"
+              name="userName"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-input">
+              <input
+                type="password"
+                id="password"
+                placeholder="Create a password"
+                name="password"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="far fa-eye"></i>
+              </button>
+            </div>
+            <label for="confirmPassword">Confirm Password</label>
+            <div class="password-input">
+              <input
+                type="password"
+                id="password"
+                placeholder="confirm"
+                name="confirmPassword"
+                required
+              />
+              <button type="button" class="toggle-password">
+                <i class="far fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="language">Primary Language</label>
+            <select id="language" name="selectedLanguage" required>
+              <option value="">Select your native language</option>
+              <option value="English">English</option>
+              <option value="Spanish">Spanish</option>
+              <option value="French">French</option>
+              <option value="Mandarin">Mandarin</option>
+            </select>
+          </div>
+
+          <button type="submit" class="signup-btn">Create Account</button>
+        </form>
+
+        <p class="login-link">
+          Already have an account? <a href="/login">Log in</a>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword = document.querySelector(".toggle-password");
+      const passwordInput = document.querySelector("#password");
+
+      togglePassword.addEventListener("click", () => {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+        togglePassword.querySelector("i").classList.toggle("fa-eye");
+        togglePassword.querySelector("i").classList.toggle("fa-eye-slash");
+      });
+    </script>
+  </body>
+</html>

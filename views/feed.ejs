@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingoPals Feed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --background-color: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --sidebar-width: 275px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.5;
+        }
+
+        /* Header Styles */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+        }
+
+        .header-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .header-content nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .header-content nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .header-content nav a.active {
+            color: var(--primary-color);
+        }
+
+        .logout-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Feed Container */
+        .feed-container {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 4rem auto 0;
+            padding: 1rem;
+        }
+
+        /* Enhanced Left Sidebar Styles */
+        .left-sidebar {
+            position: sticky;
+            top: 4rem;
+            height: fit-content;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .left-sidebar h2 {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .left-sidebar ul {
+            list-style: none;
+        }
+
+        .left-sidebar ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .left-sidebar ul li a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: var(--text-color);
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .left-sidebar ul li a:hover {
+            background-color: #f3f4f6;
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .left-sidebar ul li .english::before {
+            content: '🇺🇸';
+            margin-right: 0.75rem;
+        }
+        .left-sidebar ul li .spanish::before {
+            content: '🇪🇸';
+            margin-right: 0.75rem;
+        }
+        .left-sidebar ul li .mandarin::before {
+            content: '🇨🇳';
+            margin-right: 0.75rem;
+        }
+        .left-sidebar ul li .french::before {
+            content: '🇫🇷';
+            margin-right: 0.75rem;
+        }
+
+        /* Main Feed Styles */
+        .main-feed {
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            min-height: calc(100vh - 4rem);
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .post-creation {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .avatar-small {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-input-container {
+            flex: 1;
+        }
+
+        .post-input-container textarea {
+            width: 100%;
+            border: none;
+            resize: none;
+            min-height: 100px;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+        }
+
+        .post-input-container textarea:focus {
+            outline: none;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Image Upload Styles */
+        .post-image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: none;
+            object-fit: cover;
+        }
+
+        .image-upload-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-image-btn:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .image-upload-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .image-upload-btn:hover {
+            background-color: #f3f4f6;
+        }
+
+        .share-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .share-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Right Sidebar Styles */
+        .right-sidebar {
+            position: sticky;
+            top: 4rem;
+            height: fit-content;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            background-color: #f3f4f6;
+        }
+
+        /* Posts Container */
+        .posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        /* Individual Post */
+        .posts a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .post {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+        }
+
+        .post:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Post Header */
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-username {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .post-language {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        /* Post Content */
+        .post-caption {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .post-action:hover {
+            color: var(--primary-color);
+        }
+
+        /* Add this to your media queries section */
+        @media (max-width: 640px) {
+            .posts {
+                padding: 0.5rem;
+            }
+
+            .post {
+                padding: 0.75rem;
+            }
+
+            .post-caption {
+                font-size: 0.9rem;
+            }
+
+            .post-image {
+                max-height: 250px;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1280px) {
+            .feed-container {
+                grid-template-columns: 88px 1fr var(--sidebar-width);
+            }
+
+            .left-sidebar h2 {
+                display: none;
+            }
+
+            .left-sidebar ul li a {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+
+            .left-sidebar ul li a::before {
+                margin-right: 0;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .feed-container {
+                grid-template-columns: 88px 1fr;
+            }
+
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .feed-container {
+                grid-template-columns: 1fr;
+            }
+
+            .left-sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <a href="/" class="logo">LingoPals</a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/feed/<%= user.selectedLanguage %>" class="active">Feed</a>
+                <a href="/dashboard">Dashboard</a>
+                <div class="user-nav">
+                    <a href="/profile" class="profile-link">
+                        <img src="<%= user.avatar %>" alt="Profile" class="avatar-small">
+                        <span>
+                            <%= user.name %>
+                        </span>
+                    </a>
+                    <a href="/logout" class="logout-btn">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="feed-container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <h2>Choose your feed</h2>
+            <ul>
+                <li><a class = "english" href="/feed/English">English Feed</a></li>
+                <li><a class = "spanish"href="/feed/Spanish">Spanish Feed</a></li>
+                <li><a class = "mandarin" href="/feed/Mandarin">Mandarin Feed</a></li>
+                <li><a class = "french" href="/feed/French">French Feed</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="main-feed">
+            <!-- Post Creation -->
+            <div class="post-creation">
+                <img src="<%= user.avatar %>" alt="Your avatar" class="avatar-small">
+                <div class="post-input-container">
+                    <form action="/post/createPost" method="POST" enctype="multipart/form-data">
+                        <textarea id='postCaption'name="caption" 
+                            required></textarea>
+                        <input type="text" name="language" value = "<%= feedLanguage %>"class="form-control" style="display: none;" required>
+                        <div class="image-upload-container">
+                            <img id="imagePreview" class="post-image-preview" alt="Preview">
+                            <button type="button" id="removeImage" class="remove-image-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <div class="post-actions">
+                            <div class="post-attachments">
+                                <input type="file" id="imageUpload" name="file" accept="image/*" class="file-input">
+                                <button type="button" class="image-upload-btn" id="triggerImageUpload">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                            </div>
+                            <button type="submit" class="share-btn">Share</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Feed Posts -->
+            <div class="posts">
+                <!-- Posts will be dynamically inserted here -->
+                <% for(var i=0; i<posts.length; i++) { %>
+                    <a href="/post/<%= posts[i]._id%>">
+                        <div class="post">
+                            <div class="post-header">
+                                <img class='post-avatar' src="<%= posts[i].posters[0].avatar %>">
+                                <div class="post-user-info">
+                                    <div class="post-username">
+                                        <%= posts[i].posters[0].userName %>
+                                    </div>
+                                    <div class="post-language">Learning <%= posts[i].posters[0].selectedLanguage %>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="post-caption">
+                                <%= posts[i].caption %>
+                            </p>
+                            <%if(posts[i].image) {%>
+                            <img src="<%= posts[i].image %>" alt="Post image" class="post-image">
+                            <%}%>
+                            <div class="post-actions">
+                                <div class="post-action">
+                                    ❤️ <%= posts[i].likes %> likes
+                                </div>
+                                <div class="post-action">
+                                    💬 Comment
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <% } %>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <!-- <aside class="right-sidebar">
+            <div class="search-container">
+                <input type="search" placeholder="Search LingoPals">
+            </div>
+        </aside> -->
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async() => {
+    try {
+        // Existing language code
+        const path = window.location.pathname;
+        const language = path.split('/').pop();
+        console.log('Selected language:', language);
+        
+        // Placeholder setup based on language
+        const postCaption = document.querySelector('#postCaption');
+        if(postCaption) {
+            if(language == "English") {
+                postCaption.placeholder = "What's happening in your language learning journey?"
+            } else if(language == "Spanish") {
+                postCaption.placeholder = "¿Qué está pasando en tu viaje de aprendizaje de idiomas?"
+            } else if(language == "Mandarin") {
+                postCaption.placeholder = "你在学习语言的旅程中发生了什么?"
+            } else if(language == "French") {
+                postCaption.placeholder = "Que se passe-t-il dans votre parcours linguistique?"
+            }
+        }
+
+        // Image upload handling
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const removeImageBtn = document.getElementById('removeImage');
+        const triggerImageUpload = document.getElementById('triggerImageUpload');
+
+        if(!imageUpload || !imagePreview || !removeImageBtn || !triggerImageUpload) {
+            console.error('One or more image upload elements not found');
+            return;
+        }
+
+        // Stop event propagation to prevent interference from other scripts
+        triggerImageUpload.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Upload button clicked');
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener('change', (e) => {
+            e.stopPropagation();
+            const file = e.target.files[0];
+            console.log('File selected:', file?.name);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    removeImageBtn.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        removeImageBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Remove button clicked');
+            imageUpload.value = '';
+            imagePreview.src = '';
+            imagePreview.style.display = 'none';
+            removeImageBtn.style.display = 'none';
+        });
+
+    } catch (error) {
+        console.error('Error in image upload setup:', error);
+    }
+});
+    </script>
+
+    <script type="module" src="/js/feed.js"></script>
+</body>
+
+</html>

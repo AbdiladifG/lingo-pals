@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= language %> Room - LingoPals</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/room-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Room Data -->
+    <input type="hidden" id="twilioToken" value="<%= token %>" />
+    <input
+      type="hidden"
+      id="roomName"
+      value="<%= language %>-<%= roomNumber %>"
+    />
+    <input type="hidden" id="userName" value="<%= user.userName %>" />
+    <input type="hidden" id="avatar" value="<%= user.avatar %>" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav>
+      <div class="container nav-container">
+        <div class="logo">LingoPals</div>
+        <ul class="nav-links">
+          <li>
+            <img
+              class="room-flag"
+              src="/img/<%= language %>.png"
+              alt="<%= language %>"
+            />
+          </li>
+          <li> <%= language %> Room <%= roomNumber %>
+          </li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li>
+            <button class="btn-secondary leave-room-btn">Leave Room</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="room">
+      <div class="container">
+        <!-- Video Grid -->
+        <section class="video-grid">
+          <!-- Videos will be dynamically added here -->
+        </section>
+
+        <!-- Chat and Notes Section -->
+        <section class="interaction-section">
+          <!-- Chat Section -->
+          <div class="chat-section">
+            <div class="chat-header">
+              <h2><i class="fas fa-comments"></i> Chat</h2>
+              <span class="participants-count" id="participantsCount"
+                >Loading...</span
+              >
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-wrapper">
+              <input
+                type="text"
+                id="chatInput"
+                placeholder="Type your message..."
+              />
+              <button class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Notes Section -->
+          <div class="notes-section">
+            <div class="notes-header">
+              <h2><i class="fas fa-sticky-note"></i> Notes</h2>
+              <button class="new-note-btn">
+                <i class="fas fa-plus"></i> New Note
+              </button>
+            </div>
+            <div class="notes-content">
+              <input type="text" class="note-title" placeholder="Note title" />
+              <textarea
+                class="note-body"
+                placeholder="Start typing your notes..."
+              ></textarea>
+              <div class="note-footer">
+                <span class="last-saved">Last saved: Never</span>
+                <button class="save-note-btn">Save</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="//sdk.twilio.com/js/video/releases/2.21.0/twilio-video.min.js"></script>
+
+    <!-- Initialize modules -->
+    <script type="module">
+      import VideoChat from "/js/videoChat.js";
+      import Chat from "/js/chat.js";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        const token = document.getElementById("twilioToken").value;
+        const roomName = document.getElementById("roomName").value;
+        const userName = document.getElementById("userName").value;
+        const avatar = document.getElementById("avatar").value;
+
+        // Initialize Socket.io
+        const socket = io();
+
+        // Initialize video chat
+        await VideoChat.initialize(token, roomName);
+
+        // Initialize chat
+        Chat.initialize(socket, roomName, userName, avatar);
+
+        
+      });
+    </script>
+  </body>
+</html>
