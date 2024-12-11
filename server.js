@@ -124,6 +124,7 @@ io.on("connection", (socket) => {
       sender: socket.request.user.userName,
       timestamp: new Date(),
       isSelf: false,
+      avatar: data.avatar
     });
   });
 

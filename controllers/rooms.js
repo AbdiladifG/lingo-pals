@@ -10,7 +10,7 @@ const client = twilio(
 module.exports = {
   getDashboard: async (req, res) => {
     try {
-      const languages = ["English", "Spanish", "French", "Mandarin"];
+      const languages = ["Arabic", "Spanish", "French", "Mandarin"];
       const rooms = [];
 
       // Get all active Twilio rooms

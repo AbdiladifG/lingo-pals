@@ -45,6 +45,7 @@
           <li> <%= language %> Room <%= roomNumber %>
           <li><a href="/">Home</a></li>
           <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/decks/<%= user.selectedLanguage %>">Study Cards</a></li>
           <li><a href="/dashboard" class="active">Dashboard</a></li>
           <li>
             <a href="/dashboard" class="user-profile">
@@ -65,6 +66,7 @@
       <ul class="mobile-nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+        <li><a href="/decks/<%= user.selectedLanguage %>">Study Cards</a></li>
         <li><a href="/dashboard" class="active">Dashboard</a></li>
         <li>
           <a href="/" class="user-profile">
@@ -122,7 +124,7 @@
               <input type="text" class="note-title" placeholder="Note title" />
               <textarea
                 class="note-body"
-                placeholder="Start typing your notes..."
+                placeholder="Notes feature coming soon"
               ></textarea>
               <div class="note-footer">
                 <span class="last-saved">Last saved: Never</span>

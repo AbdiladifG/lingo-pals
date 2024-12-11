@@ -181,6 +181,17 @@ select:focus {
   cursor: pointer;
 }
 
+.toggle-confirm {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--light-text);
+  cursor: pointer;
+}
+
 .checkbox {
   display: flex;
   gap: 0.5rem;

@@ -4,7 +4,7 @@ const roomSchema = new mongoose.Schema({
   language: {
     type: String,
     required: true,
-    enum: ["english", "spanish", "french", "mandarin"],
+    enum: ["arabic", "spanish", "french", "mandarin"],
   },
   roomNumber: {
     type: Number,

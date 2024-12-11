@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = document.getElementById("twilioToken").value;
     const roomName = document.getElementById("roomName").value;
     const userName = document.getElementById("userName").value;
+    const avatar = document.getElementById("avatar").value;
 
     if (!token || !roomName || !userName) {
       throw new Error("Missing required room parameters");
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await VideoChat.initialize(token, roomName);
 
     // Initialize chat with userName
-    Chat.initialize(socket, roomName, userName);
+    Chat.initialize(socket, roomName, userName, avatar);
 
     // Handle room leaving
     const handleLeaveRoom = async () => {

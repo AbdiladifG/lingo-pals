@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   selectedLanguage: { type: String, required: true },
   password: String,
-  avatar: {type: String, default:`https://api.dicebear.com/6.x/avataaars/svg?seed=${this.userName}`},
+  avatar: {type: String},
   learnedCards: {
     type: Map,
     of: [Number], // Array of card IDs for each deck

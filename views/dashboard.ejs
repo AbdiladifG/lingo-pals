@@ -26,6 +26,7 @@
         <ul class="nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/decks/<%= user.selectedLanguage.toLowerCase() %>">Study Cards</a></li>
           <li><a href="/dashboard" class="active">Dashboard</a></li>
           <li>
             <a href="/dashboard" class="user-profile">
@@ -34,7 +35,6 @@
                 alt="Profile"
                 class="nav-profile-img"
               />
-              <%= user.userName %>
             </a>
           </li>
           <li><a href="/logout" class="btn-secondary">Logout</a></li>
@@ -47,6 +47,7 @@
       <ul class="mobile-nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+        <li><a href="/decks/<%= user.selectedLanguage.toLowerCase() %>">Study Cards</a></li>
         <li><a href="/dashboard" class="active">Dashboard</a></li>
         <li>
           <a href="/" class="user-profile">
@@ -55,7 +56,6 @@
               alt="Profile"
               class="nav-profile-img"
             />
-            <%= user.userName %>
           </a>
         </li>
         <li><a href="/logout" class="btn-secondary">Logout</a></li>
@@ -104,7 +104,7 @@
                     <span class="stat-label">Your target language</span>
                     <form class = "updateLang" action="/updateLanguage?_method=PUT" method="POST">
                       <select name="selectedLanguage" class="language-select">
-                        <option value="English">English</option>
+                        <option value="Arabic">Arabic</option>
                         <option value="Spanish">Spanish</option>
                         <option value="Mandarin">Mandarin</option>
                         <option value="French">French</option>
@@ -203,6 +203,20 @@
          <section class="rooms-section">
           <h2>Language Flashcards</h2>
           <div class="rooms-grid">
+            <div class="room-card">
+              <span class=""
+                ><img src="/img/arabic.png" class="flag" alt=""
+              /></span>
+              <h3>Arabic Flashcards</h3>
+              <p></p>
+              <div class="room-details">
+                <span class="level"></span>
+                <span class="participants">
+
+                </span>
+              </div>
+              <a href="/decks/arabic" class="join-room-btn">Study Flashcards</a>
+            </div>
 
             <div class="room-card">
               <span class=""

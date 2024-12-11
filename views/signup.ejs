@@ -66,22 +66,22 @@
             <div class="password-input">
               <input
                 type="password"
-                id="password"
-                placeholder="confirm"
+                id="confirm"
+                placeholder="Confirm password"
                 name="confirmPassword"
                 required
               />
-              <button type="button" class="toggle-password">
+              <button type="button" class="toggle-confirm">
                 <i class="far fa-eye"></i>
               </button>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="language">Primary Language</label>
+            <label for="language">Target Language</label>
             <select id="language" name="selectedLanguage" required>
-              <option value="">Select your native language</option>
-              <option value="English">English</option>
+              <option value="">Select the language you want to learn.</option>
+              <option value="Arabic">Arabic</option>
               <option value="Spanish">Spanish</option>
               <option value="French">French</option>
               <option value="Mandarin">Mandarin</option>
@@ -111,6 +111,20 @@
         togglePassword.querySelector("i").classList.toggle("fa-eye");
         togglePassword.querySelector("i").classList.toggle("fa-eye-slash");
       });
+
+      const toggleConfirm = document.querySelector(".toggle-confirm");
+      const confirmInput = document.querySelector("#confirm");
+
+      toggleConfirm.addEventListener("click", () => {
+        const type =
+          confirmInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        confirmInput.setAttribute("type", type);
+        toggleConfirm.querySelector("i").classList.toggle("fa-eye");
+        toggleConfirm.querySelector("i").classList.toggle("fa-eye-slash");
+      });
+      
     </script>
   </body>
 </html>

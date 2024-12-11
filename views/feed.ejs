@@ -137,8 +137,8 @@
             transform: translateX(5px);
         }
 
-        .left-sidebar ul li .english::before {
-            content: '🇺🇸';
+        .left-sidebar ul li .arabic::before {
+            content: '🇸🇦';
             margin-right: 0.75rem;
         }
         .left-sidebar ul li .spanish::before {
@@ -437,9 +437,9 @@
                 grid-template-columns: 1fr;
             }
 
-            .left-sidebar {
+            /* .left-sidebar {
                 display: none;
-            }
+            } */
         }
     </style>
 </head>
@@ -455,6 +455,7 @@
           <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+            <li><a href="/decks/<%= user.selectedLanguage.toLowerCase() %>">Study Cards</a></li>
             <li><a href="/dashboard" class="active">Dashboard</a></li>
             <li>
               <a href="/dashboard" class="user-profile">
@@ -463,7 +464,6 @@
                   alt="Profile"
                   class="nav-profile-img"
                 />
-                <%= user.userName %>
               </a>
             </li>
             <li><a href="/logout" class="btn-secondary">Logout</a></li>
@@ -475,6 +475,7 @@
         <ul class="mobile-nav-links">
           <li><a href="/">Home</a></li>
           <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/decks/<%= user.selectedLanguage %>">Study Cards</a></li>
           <li><a href="/dashboard" class="active">Dashboard</a></li>
           <li>
             <a href="/" class="user-profile">
@@ -495,7 +496,7 @@
         <aside class="left-sidebar">
             <h2>Choose your feed</h2>
             <ul>
-                <li><a class = "english" href="/feed/English">English Feed</a></li>
+                <li><a class = "arabic" href="/feed/Arabic">Arabic Feed</a></li>
                 <li><a class = "spanish"href="/feed/Spanish">Spanish Feed</a></li>
                 <li><a class = "mandarin" href="/feed/Mandarin">Mandarin Feed</a></li>
                 <li><a class = "french" href="/feed/French">French Feed</a></li>
@@ -588,8 +589,8 @@
         // Placeholder setup based on language
         const postCaption = document.querySelector('#postCaption');
         if(postCaption) {
-            if(language == "English") {
-                postCaption.placeholder = "What's happening in your language learning journey?"
+            if(language == "Arabic") {
+                postCaption.placeholder = "ماذا يحدث في رحلة تعلم اللغة الخاصة بك؟"
             } else if(language == "Spanish") {
                 postCaption.placeholder = "¿Qué está pasando en tu viaje de aprendizaje de idiomas?"
             } else if(language == "Mandarin") {

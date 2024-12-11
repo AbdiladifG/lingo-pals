@@ -87,6 +87,7 @@ exports.postSignup = (req, res, next) => {
   const user = new User({
     userName: req.body.userName,
     email: req.body.email,
+    avatar: `https://api.dicebear.com/6.x/avataaars/svg?seed=${req.body.userName}`,
     password: req.body.password,
     selectedLanguage: req.body.selectedLanguage,
     learnedCards: new Map(),

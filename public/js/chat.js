@@ -62,6 +62,7 @@ const Chat = {
     this.socket.emit("message", {
       room: this.roomName,
       text: message,
+      avatar: this.avatar
     });
 
     // Add message to chat immediately (local user's message)
@@ -98,6 +99,7 @@ const Chat = {
   },
 
   addMessage(data) {
+    console.log(data)
     const chatMessages = document.getElementById("chatMessages");
     const messageHTML = `
       <div class="message ${data.isSelf ? "own-message" : ""}">

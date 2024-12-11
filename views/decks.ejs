@@ -74,34 +74,36 @@
     </style>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
-          <div class="logo">LingoPals</div>
-          <button class="mobile-menu-btn">
-            <i class="fas fa-bars"></i>
-          </button>
-          <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
-            <li><a href="/dashboard" class="active">Dashboard</a></li>
-            <li>
-              <a href="/dashboard" class="user-profile">
-                <img
-                  src="<%= user.avatar %>"
-                  alt="Profile"
-                  class="nav-profile-img"
-                />
-                <%= user.userName %>
-              </a>
-            </li>
-            <li><a href="/logout" class="btn-secondary">Logout</a></li>
-          </ul>
-        </div>
-      </nav>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">LingoPals</div>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+        <li><a href="/decks/<%= user.selectedLanguage.toLowerCase() %>">Study Cards</a></li>
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li>
+          <a href="/dashboard" class="user-profile">
+            <img
+              src="<%= user.avatar %>"
+              alt="Profile"
+              class="nav-profile-img"
+            />
+          </a>
+        </li>
+        <li><a href="/logout" class="btn-secondary">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
 
       <div class="mobile-menu">
         <ul class="mobile-nav-links">
           <li><a href="/">Home</a></li>
+          <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/decks/<%= user.selectedLanguage %>">Study Cards</a></li>
           <li><a href="/dashboard" class="active">Dashboard</a></li>
           <li>
             <a href="/" class="user-profile">
