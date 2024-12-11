@@ -1,0 +1,55 @@
+@media  screen and (max-width: 720px){
+    .top-details h1 {
+        font-size: 25px;
+    }
+    .nav-item{
+        margin-top: 15px;
+    }
+    .nav-bton{
+        margin-top: 20px;
+    }
+    .details-img img {
+        width: 150px;
+    }
+    .details-info p {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .header-btn a {
+        font-size: 14px;
+        padding: 7px 30px;
+    }
+    .practicing-main {
+        width: 100%;
+        margin-top: -220px;
+    }
+    .learners-box-photo {
+        width: 100%;
+    }
+    .learners-main h3 {
+        margin-top: 25px;
+        font-size: 32px;
+    }
+    .top-mar{
+        margin-top: 30px;
+    }
+    #faq{
+        padding: 0;
+    }
+    .faq-main h1{
+        font-size: 37px;
+        margin-bottom: 20px;
+    }
+    .faq-main {
+        
+        margin: 0px; 
+     
+    }
+    
+    
+}
+@media  screen and (max-width:920px){
+    .top-header-btn {
+        width: 88%;
+    }
+}
