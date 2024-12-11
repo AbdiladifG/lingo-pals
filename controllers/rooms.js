@@ -78,7 +78,7 @@ module.exports = {
           .rooms(roomName)
           .participants.list();
 
-        if (participants.length >= 6) {
+        if (participants.length >= 9) {
           const nextRoomNumber = parseInt(roomNumber) + 1;
           return res.redirect(`/room/${language}/${nextRoomNumber}`);
         }

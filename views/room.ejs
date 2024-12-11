@@ -20,12 +20,20 @@
     />
     <input type="hidden" id="userName" value="<%= user.userName %>" />
     <input type="hidden" id="avatar" value="<%= user.avatar %>" />
+    <style>
+      .nav-container li{
+        margin-top: 1%;
+      }
+    </style>
   </head>
   <body>
     <!-- Navigation -->
     <nav>
-      <div class="container nav-container">
+      <div class="nav-container">
         <div class="logo">LingoPals</div>
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
         <ul class="nav-links">
           <li>
             <img
@@ -35,14 +43,42 @@
             />
           </li>
           <li> <%= language %> Room <%= roomNumber %>
-          </li>
-          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/dashboard" class="active">Dashboard</a></li>
           <li>
-            <button class="btn-secondary leave-room-btn">Leave Room</button>
+            <a href="/dashboard" class="user-profile">
+              <img
+                src="<%= user.avatar %>"
+                alt="Profile"
+                class="nav-profile-img"
+              />
+              <%= user.userName %>
+            </a>
           </li>
+          <li><a href="/logout" class="btn-secondary">Logout</a></li>
         </ul>
       </div>
     </nav>
+
+    <div class="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+        <li><a href="/dashboard" class="active">Dashboard</a></li>
+        <li>
+          <a href="/" class="user-profile">
+            <img
+              src="<%= user.avatar %>"
+              alt="Profile"
+              class="nav-profile-img"
+            />
+            <%= user.userName %>
+          </a>
+        </li>
+        <li><a href="/logout" class="btn-secondary">Logout</a></li>
+      </ul>
+    </div>
 
     <main class="room">
       <div class="container">
@@ -101,6 +137,7 @@
     <!-- Scripts -->
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script src="//sdk.twilio.com/js/video/releases/2.21.0/twilio-video.min.js"></script>
+    <script src="/mobile-menu.js"></script>
 
     <!-- Initialize modules -->
     <script type="module">

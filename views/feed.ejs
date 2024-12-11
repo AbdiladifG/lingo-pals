@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LingoPals Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="/style.css">
     <style>
         /* Base Styles */
         :root {
@@ -445,25 +446,49 @@
 
 <body>
     <!-- Header -->
-    <header class="main-header">
-        <div class="header-content">
-            <a href="/" class="logo">LingoPals</a>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/feed/<%= user.selectedLanguage %>" class="active">Feed</a>
-                <a href="/dashboard">Dashboard</a>
-                <div class="user-nav">
-                    <a href="/profile" class="profile-link">
-                        <img src="<%= user.avatar %>" alt="Profile" class="avatar-small">
-                        <span>
-                            <%= user.name %>
-                        </span>
-                    </a>
-                    <a href="/logout" class="logout-btn">Logout</a>
-                </div>
-            </nav>
+    <nav>
+        <div class="nav-container">
+          <div class="logo">LingoPals</div>
+          <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+            <li><a href="/dashboard" class="active">Dashboard</a></li>
+            <li>
+              <a href="/dashboard" class="user-profile">
+                <img
+                  src="<%= user.avatar %>"
+                  alt="Profile"
+                  class="nav-profile-img"
+                />
+                <%= user.userName %>
+              </a>
+            </li>
+            <li><a href="/logout" class="btn-secondary">Logout</a></li>
+          </ul>
         </div>
-    </header>
+      </nav>
+
+      <div class="mobile-menu">
+        <ul class="mobile-nav-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
+          <li><a href="/dashboard" class="active">Dashboard</a></li>
+          <li>
+            <a href="/" class="user-profile">
+              <img
+                src="<%= user.avatar %>"
+                alt="Profile"
+                class="nav-profile-img"
+              />
+              <%= user.userName %>
+            </a>
+          </li>
+          <li><a href="/logout" class="btn-secondary">Logout</a></li>
+        </ul>
+      </div>
 
     <div class="feed-container">
         <!-- Left Sidebar -->
@@ -551,6 +576,7 @@
         </aside> -->
     </div>
 
+    <script src="/mobile-menu.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", async() => {
     try {
@@ -620,7 +646,7 @@
     } catch (error) {
         console.error('Error in image upload setup:', error);
     }
-});
+    });
     </script>
 
     <script type="module" src="/js/feed.js"></script>

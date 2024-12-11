@@ -46,11 +46,12 @@
     <div class="mobile-menu">
       <ul class="mobile-nav-links">
         <li><a href="/">Home</a></li>
+        <li><a href="/feed/<%= user.selectedLanguage %>">Feed</a></li>
         <li><a href="/dashboard" class="active">Dashboard</a></li>
         <li>
-          <a href="#" class="user-profile">
+          <a href="/" class="user-profile">
             <img
-              src="https://api.dicebear.com/6.x/avataaars/svg?seed=<%= user.userName %>"
+              src="<%= user.avatar %>"
               alt="Profile"
               class="nav-profile-img"
             />
@@ -91,19 +92,25 @@
                     <span class="stat-label">Practice</span>
 
                   </div>
+                  
+                  <div class="stat">
+                    <span class="stat-value"><%=[...user.learnedCards.values()].reduce((sum, list) => sum + list.length, 0)%></span>
+                    <span class="stat-label">Cards Learned</span>
+
+                  </div>
 
                   <div class="stat">
                     <span class="stat-value"><%= user.selectedLanguage %></span>
                     <span class="stat-label">Your target language</span>
-                    <form action="/updateLanguage?_method=PUT" method="POST">
-                      <select name="selectedLanguage" id="">
+                    <form class = "updateLang" action="/updateLanguage?_method=PUT" method="POST">
+                      <select name="selectedLanguage" class="language-select">
                         <option value="English">English</option>
                         <option value="Spanish">Spanish</option>
                         <option value="Mandarin">Mandarin</option>
                         <option value="French">French</option>
                       </select>
                       <button class="language-submit" type="submit">Submit</button>
-                  </form>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -122,12 +129,13 @@
                    class="avatar-preview" 
                    id="avatarPreview">
               <div class="file-input-wrapper">
-                <label for="avatarUpload" class="file-input-label">Choose a new profile picture</label>
+                <label for="avatarUpload"  class="file-input-label">Choose a new profile picture</label>
                 <input type="file" 
                        id="avatarUpload" 
                        name="file" 
                        accept="image/*" 
-                       class="file-input" 
+                       class="file-input " 
+                       
                        required>
               </div>
               <button type="submit" value="Upload" class="modal-submit">Update Profile Picture</button>
@@ -169,7 +177,7 @@
                   <span class="capacity">
                     <i class="fas fa-users"></i>
                     <span class="capacity-numbers"
-                      ><%= room.participants %>/6</span
+                      ><%= room.participants %>/9</span
                     >
                   </span>
                 </div>
@@ -245,6 +253,7 @@
     </main>
 
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script src="/mobile-menu.js"></script>
     <script>
       const socket = io();
 
@@ -265,7 +274,7 @@
         const countNumber = roomCard.querySelector(".count-number");
         const capacityNumbers = roomCard.querySelector(".capacity-numbers");
         countNumber.textContent = roomData.participants;
-        capacityNumbers.textContent = `${roomData.participants}/6`;
+        capacityNumbers.textContent = `${roomData.participants}/9`;
 
         // Update learners text
         const participantText = roomCard.querySelector(".participant-count");
@@ -276,7 +285,7 @@
 
         // Update join button
         const joinButton = roomCard.querySelector(".join-room-btn");
-        if (roomData.participants >= 6) {
+        if (roomData.participants >= 9) {
           joinButton.classList.add("disabled");
           joinButton.setAttribute("disabled", "");
           joinButton.textContent = "Room Full";
@@ -318,7 +327,7 @@
                               <i class="fas fa-users"></i> 
                               <span class="capacity-numbers">${
                                 roomData.participants
-                              }/6</span>
+                              }/9</span>
                           </span>
                       </div>
                   </div>
@@ -327,10 +336,10 @@
           roomData.roomNumber
         }" 
                      class="join-room-btn ${
-                       roomData.participants >= 6 ? "disabled" : ""
+                       roomData.participants >= 9 ? "disabled" : ""
                      }"
-                     ${roomData.participants >= 6 ? "disabled" : ""}>
-                      ${roomData.participants >= 6 ? "Room Full" : "Join Room"}
+                     ${roomData.participants >= 9 ? "disabled" : ""}>
+                      ${roomData.participants >= 9 ? "Room Full" : "Join Room"}
                   </a>
               </div>
           `;
@@ -384,6 +393,7 @@
           reader.readAsDataURL(file);
         }
       });
+
     </script>
 
     <style>

@@ -91,8 +91,7 @@ module.exports = {
             user.learnedCards.set(deckKey, learnedCardIds);
             await user.save();
         }
-
-        res.redirect(`/decks/${language}/${deckName}`);
+        // res.redirect(`/decks/${language}/${deckName}`);
     } catch (err) {
         console.error('Error saving learned card:', err);
         res.redirect(`/decks/${req.params.language}/${req.params.deckName}`);

@@ -19,7 +19,7 @@ const Chat = {
     this.setupEventListeners();
 
     // Send system message that user has joined
-    this.addSystemMessage(`You joined the room`);
+    // this.addSystemMessage(`You joined the room`);
   },
 
   // Add a separate method for socket events

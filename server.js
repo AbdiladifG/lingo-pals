@@ -11,6 +11,7 @@ const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
 const roomRoutes = require("./routes/room");
+const commentRoutes = require("./routes/comment");
 const PORT = process.env.PORT || 3000
 
 // Create HTTP server
@@ -77,6 +78,7 @@ app.use((req, res, next) => {
 app.use("/", mainRoutes);
 app.use("/post", postRoutes);
 app.use("/room", roomRoutes);
+app.use("/comment", commentRoutes);
 
 // Wrap session middleware for Socket.io
 const wrap = (middleware) => (socket, next) =>

@@ -60,6 +60,10 @@ const VideoChat = {
       if (track.kind === "video") {
         const videoElement = track.attach();
         container.querySelector(".video-wrapper").prepend(videoElement);
+      } else if (track.kind === "audio") {
+        const audioElement = track.attach();
+        audioElement.style.display = "none"; // Hide the audio element
+        container.appendChild(audioElement);
       }
     });
 
@@ -141,6 +145,10 @@ const VideoChat = {
     if (track.kind === "video") {
       const videoElement = track.attach();
       container.querySelector(".video-wrapper").prepend(videoElement);
+    } else if (track.kind === "audio") {
+      const audioElement = track.attach();
+      audioElement.style.display = 'none';  // Hide the audio element
+      container.appendChild(audioElement);
     }
   },
 
