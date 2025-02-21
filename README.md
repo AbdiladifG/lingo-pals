@@ -1,8 +1,22 @@
-# Install
+## LingoPals
+LingoPals is an app where users can learn languages better by joining video chat rooms, practicing with native speakers, and building a community with other language learners.
+![image](https://github.com/user-attachments/assets/4977c811-56f0-40a3-b100-3836058f0177)
 
-`npm install`
+## Tech Used
+Node.js, Express, MongoDB, JavaScript, CSS, EJS, WebSockets
 
----
+## View Project
+1. Navigate to https://lingo-pals-992604e5aee9.herokuapp.com/
+
+## Installation
+
+1. Clone repo
+2. run `npm install`
+
+## Usage
+
+1. run `node server.js`
+2. Navigate to `localhost:8080`
 
 # Things to add
 
@@ -13,8 +27,3 @@
   - API_KEY = `your cloudinary api key`
   - API_SECRET = `your cloudinary api secret`
 
----
-
-# Run
-
-`npm start`
